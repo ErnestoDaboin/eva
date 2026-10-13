@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <!-- ============================================================
+       EVA · Ernesto Valeria Asociación
+       Landing page de repostería artesanal (Marmoleada & Limón)
+       HTML5 semántico + Tailwind CSS (CDN)
+       ============================================================ -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5C3A2E" />
+    <meta name="description"
+        content="EVA · Ernesto Valeria Asociación. Tortas artesanales de alta calidad: Marmoleada y de Limón. Hechas con amor, ingredientes frescos y entregadas con cuidado." />
+    <meta name="author" content="EVA - Ernesto Valeria Asociación" />
+
+    <!-- Open Graph (vista previa al compartir en redes) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="EVA · Tortas artesanales" />
+    <meta property="og:description" content="Marmoleada y de Limón. Sabor artesanal hecho con amor." />
+    <meta property="og:image" content="images/tortas.png" />
+
+    <title>EVA · Tortas Artesanales | Ernesto Valeria Asociación</title>
+
+    <!-- Favicon con el isotipo de la marca -->
+    <link rel="icon" type="image/png" href="images/isotipo.png" />
+    <link rel="apple-touch-icon" href="images/isotipo.png" />
+
+    <!-- Tipografías: Playfair Display (elegante) + Poppins (legible) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS por CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        /* Configuración de la paleta cálida/artesanal y tipografías de EVA */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: { 50: '#FFFCF7', 100: '#FFF7EC', 200: '#F8ECD9' }, // fondos crema
+                        choco: { 400: '#A9744F', 500: '#8A5636', 600: '#6F4227', 700: '#5C3A2E', 800: '#432A20' }, // marmoleada
+                        lemon: { 300: '#F7E08A', 400: '#F3D45E', 500: '#EEC33B' }, // limón
+                        leaf: { 300: '#CFE4B0', 400: '#B7D8A0', 500: '#9CC77F' }, // verde suave
+                        gold: { 400: '#E0BC5B', 500: '#C9A227', 600: '#A9861C' }  // detalles dorados
+                    },
+                    fontFamily: {
+                        display: ['"Playfair Display"', 'serif'],
+                        body: ['Poppins', 'sans-serif']
+                    },
+                    keyframes: {
+                        floaty: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-14px)' } },
+                        floaty2: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(10px)' } },
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    },
+                    animation: {
+                        floaty: 'floaty 6s ease-in-out infinite',
+                        floaty2: 'floaty2 7s ease-in-out infinite',
+                        fadeUp: 'fadeUp .8s ease-out both'
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Estilos de apoyo -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFFCF7;
+        }
+
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Desplazamiento suave compensando el header fijo */
+        section {
+            scroll-margin-top: 5.5rem;
+        }
+
+        /* Textura de puntos sutil para fondos artesanales */
+        .bg-dots {
+            background-image: radial-gradient(rgba(201, 162, 39, 0.18) 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+
+        /* Aparición al hacer scroll (activada por JS) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s ease, transform .8s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Menú móvil desplegable */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        #mobile-menu.open {
+            max-height: 32rem;
+        }
+    </style>
+</head>
+
+<body class="bg-cream-50 text-choco-800 antialiased selection:bg-lemon-300 selection:text-choco-800">
+
+    <!-- ============================================================
+       1. HEADER / NAVEGACIÓN (sticky)
+       ============================================================ -->
+    <header id="header"
+        class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-cream-50/80 backdrop-blur-md shadow-sm">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
+            <div class="flex h-20 items-center justify-between">
+
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-2 shrink-0" aria-label="EVA, inicio">
+                    <img src="images/logotipo.png" alt="Logo EVA - Ernesto Valeria Asociación"
+                        class="h-12 w-auto sm:h-14" />
+                </a>
+
+                <!-- Enlaces de escritorio -->
+                <ul class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+                    <li><a href="#inicio" class="text-choco-700 hover:text-gold-500 transition-colors">Inicio</a></li>
+                    <li><a href="#menu" class="text-choco-700 hover:text-gold-500 transition-colors">Menú</a></li>
+                    <li><a href="#nosotros" class="text-choco-700 hover:text-gold-500 transition-colors">Sobre
+                            Nosotros</a></li>
+                    <li><a href="#contacto" class="text-choco-700 hover:text-gold-500 transition-colors">Contacto</a>
+                    </li>
+                </ul>
+
+                <!-- CTA escritorio -->
+                <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20hacer%20un%20pedido" target="_blank"
+                    rel="noopener"
+                    class="hidden md:inline-flex items-center gap-2 rounded-full bg-choco-700 px-5 py-2.5 text-sm font-semibold text-cream-50 shadow-md transition hover:bg-choco-600 hover:shadow-lg">
+                    <!-- Icono WhatsApp -->
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    Pedir por WhatsApp
+                </a>
+
+                <!-- Botón hamburguesa (móvil) -->
+                <button id="menu-btn" type="button"
+                    class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-choco-700 hover:bg-cream-200 transition"
+                    aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
+                    <!-- Icono hamburguesa -->
+                    <svg id="icon-open" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+                    </svg>
+                    <!-- Icono cerrar -->
+                    <svg id="icon-close" class="hidden h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menú móvil desplegable -->
+            <div id="mobile-menu" class="md:hidden">
+                <ul class="flex flex-col gap-1 pb-5 pt-1 text-base font-medium">
+                    <li><a href="#inicio"
+                            class="mobile-link block rounded-lg px-4 py-3 text-choco-700 hover:bg-cream-200">Inicio</a>
+                    </li>
+                    <li><a href="#menu"
+                            class="mobile-link block rounded-lg px-4 py-3 text-choco-700 hover:bg-cream-200">Menú</a>
+                    </li>
+                    <li><a href="#nosotros"
+                            class="mobile-link block rounded-lg px-4 py-3 text-choco-700 hover:bg-cream-200">Sobre
+                            Nosotros</a></li>
+                    <li><a href="#contacto"
+                            class="mobile-link block rounded-lg px-4 py-3 text-choco-700 hover:bg-cream-200">Contacto</a>
+                    </li>
+                    <li class="pt-2">
+                        <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20hacer%20un%20pedido"
+                            target="_blank" rel="noopener"
+                            class="flex items-center justify-center gap-2 rounded-full bg-choco-700 px-5 py-3 text-sm font-semibold text-cream-50 shadow-md">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                            Pedir por WhatsApp
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ============================================================
+         2. HERO / PORTADA PRINCIPAL
+         ============================================================ -->
+        <section id="inicio" class="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24">
+            <!-- Fondos decorativos -->
+            <div class="pointer-events-none absolute inset-0 bg-dots opacity-60" aria-hidden="true"></div>
+            <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-lemon-300/40 blur-3xl"
+                aria-hidden="true"></div>
+            <div class="pointer-events-none absolute top-1/3 -left-24 h-72 w-72 rounded-full bg-leaf-300/40 blur-3xl"
+                aria-hidden="true"></div>
+
+            <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
+
+                    <!-- Texto -->
+                    <div class="text-center lg:text-left animate-fadeUp">
+                        <span
+                            class="inline-flex items-center gap-2 rounded-full border border-gold-400/50 bg-cream-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+                            <span class="h-1.5 w-1.5 rounded-full bg-gold-500"></span>
+                            Repostería artesanal
+                        </span>
+
+                        <h1
+                            class="font-display mt-5 text-4xl font-bold leading-tight text-choco-800 sm:text-5xl lg:text-6xl">
+                            Sabor artesanal
+                            <span class="block text-choco-500 italic">hecho con amor</span>
+                        </h1>
+
+                        <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-choco-600/90 sm:text-lg lg:mx-0">
+                            En <strong class="font-semibold text-choco-700">EVA</strong> horneamos cada torta al
+                            momento.
+                            Nuestras especialidades: la irresistible <em>Marmoleada</em> y la fresca <em>de Limón</em>,
+                            el equilibrio perfecto entre tradición y dulzura.
+                        </p>
+
+                        <!-- Botones de acción -->
+                        <div
+                            class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                            <a href="#menu"
+                                class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-choco-700 px-7 py-3.5 text-sm font-semibold text-cream-50 shadow-lg transition hover:-translate-y-0.5 hover:bg-choco-600 hover:shadow-xl sm:w-auto">
+                                Ver Menú
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                            <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20hacer%20un%20pedido"
+                                target="_blank" rel="noopener"
+                                class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-choco-700 bg-transparent px-7 py-3.5 text-sm font-semibold text-choco-700 transition hover:-translate-y-0.5 hover:bg-choco-700 hover:text-cream-50 sm:w-auto">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                Pedir por WhatsApp
+                            </a>
+                        </div>
+
+                        <!-- Pequeños sellos de confianza -->
+                        <div
+                            class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-choco-500 lg:justify-start">
+                            <span class="inline-flex items-center gap-1.5">
+                                <svg class="h-4 w-4 text-leaf-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Ingredientes frescos
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <svg class="h-4 w-4 text-leaf-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Horneado al momento
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <svg class="h-4 w-4 text-leaf-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Entrega cuidada
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Imagen principal -->
+                    <div class="relative animate-fadeUp [animation-delay:150ms]">
+                        <!-- Aro decorativo -->
+                        <div class="absolute inset-0 -m-4 rounded-[2.5rem] border border-gold-400/40 sm:-m-6"
+                            aria-hidden="true"></div>
+                        <div class="relative overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-choco-800/10">
+                            <img src="images/tortas.png" alt="Selección de tortas artesanales de EVA"
+                                class="h-full w-full object-cover" loading="eager" />
+                        </div>
+
+                        <!-- Tarjeta flotante: destacado marmoleada -->
+                        <div
+                            class="absolute -bottom-5 -left-3 flex items-center gap-3 rounded-2xl bg-cream-50/95 px-4 py-3 shadow-xl ring-1 ring-choco-800/5 backdrop-blur animate-floaty sm:-left-6">
+                            <img src="images/isotipo.png" alt="Isotipo EVA"
+                                class="h-10 w-10 rounded-full object-contain" />
+                            <div class="leading-tight">
+                                <p class="text-sm font-semibold text-choco-800">Hechas a mano</p>
+                                <p class="text-xs text-choco-500">Receta de familia</p>
+                            </div>
+                        </div>
+
+                        <!-- Sello flotante: limón -->
+                        <div
+                            class="absolute -top-4 right-2 rounded-2xl bg-lemon-400/95 px-4 py-2 text-center shadow-lg animate-floaty2 sm:right-4">
+                            <p class="font-display text-lg font-bold text-choco-800">100%</p>
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-choco-700">Artesanal</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+         3. MENÚ / ESPECIALIDADES
+         ============================================================ -->
+        <section id="menu" class="relative bg-cream-100 py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <!-- Encabezado de sección -->
+                <div class="reveal mx-auto max-w-2xl text-center">
+                    <span class="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">Nuestro menú</span>
+                    <h2 class="font-display mt-3 text-3xl font-bold text-choco-800 sm:text-4xl">Nuestras especialidades
+                    </h2>
+                    <p class="mt-4 text-choco-600/90">
+                        Dos clásicos que conquistan. Elige tu favorita y pídela directo por WhatsApp.
+                    </p>
+                </div>
+
+                <!-- Tarjetas de producto -->
+                <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:gap-10">
+
+                    <!-- Card: Torta Marmoleada -->
+                    <article
+                        class="reveal group overflow-hidden rounded-3xl bg-cream-50 shadow-lg ring-1 ring-choco-800/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
+                        <div class="relative h-64 overflow-hidden sm:h-72">
+                            <img src="images/marmoleada.png" alt="Torta Marmoleada artesanal de EVA"
+                                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                loading="lazy" />
+                            <!-- Etiqueta -->
+                            <span
+                                class="absolute left-4 top-4 rounded-full bg-choco-700/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cream-50 backdrop-blur">
+                                Más vendida
+                            </span>
+                        </div>
+                        <div class="p-6 sm:p-7">
+                            <h3 class="font-display text-2xl font-bold text-choco-800">Torta Marmoleada</h3>
+                            <p class="mt-3 text-sm leading-relaxed text-choco-600/90">
+                                Esponjosa y húmeda, el equilibrio perfecto entre la suavidad de la vainilla y
+                                el carácter del cacao rico. Un clásico que enamora en cada bocado.
+                            </p>
+                            <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20pedir%20o%20consultar%20sobre%20la%20Torta%20Marmoleada"
+                                target="_blank" rel="noopener"
+                                class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-choco-700 px-6 py-3 text-sm font-semibold text-cream-50 transition hover:bg-choco-600">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                Pedir por WhatsApp
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card: Torta de Limón -->
+                    <article
+                        class="reveal group overflow-hidden rounded-3xl bg-cream-50 shadow-lg ring-1 ring-choco-800/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
+                        <div class="relative h-64 overflow-hidden sm:h-72">
+                            <img src="images/limon.png" alt="Torta de Limón artesanal de EVA"
+                                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                loading="lazy" />
+                            <span
+                                class="absolute left-4 top-4 rounded-full bg-leaf-500/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-choco-800 backdrop-blur">
+                                Refrescante
+                            </span>
+                        </div>
+                        <div class="p-6 sm:p-7">
+                            <h3 class="font-display text-2xl font-bold text-choco-800">Torta de Limón</h3>
+                            <p class="mt-3 text-sm leading-relaxed text-choco-600/90">
+                                Fresca, suave y con un toque cítrico irresistible. El balance perfecto entre
+                                dulzura y acidez para esos antojos que piden algo ligero.
+                            </p>
+                            <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20pedir%20o%20consultar%20sobre%20la%20Torta%20de%20Lim%C3%B3n"
+                                target="_blank" rel="noopener"
+                                class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-leaf-500 px-6 py-3 text-sm font-semibold text-choco-800 transition hover:bg-leaf-400">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                Pedir por WhatsApp
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+         4. SOBRE NOSOTROS
+         ============================================================ -->
+        <section id="nosotros" class="relative overflow-hidden py-20 sm:py-24">
+            <!-- Marca de agua con el isotipo -->
+            <img src="images/isotipo.png" alt=""
+                class="pointer-events-none absolute -right-16 top-1/2 hidden h-96 w-96 -translate-y-1/2 opacity-[0.05] lg:block"
+                aria-hidden="true" />
+
+            <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+                    <!-- Imagen de marca -->
+                    <div class="reveal order-2 flex justify-center lg:order-1">
+                        <div class="relative">
+                            <div class="absolute -inset-6 rounded-full bg-gradient-to-tr from-lemon-300/50 to-leaf-300/50 blur-2xl"
+                                aria-hidden="true"></div>
+                            <div
+                                class="relative flex h-64 w-64 items-center justify-center rounded-full bg-cream-100 p-10 shadow-xl ring-1 ring-gold-400/30 sm:h-80 sm:w-80">
+                                <img src="images/isologo.png" alt="Isologo de EVA - Ernesto Valeria Asociación"
+                                    class="h-full w-full object-contain animate-floaty" loading="lazy" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Texto -->
+                    <div class="reveal order-1 lg:order-2">
+                        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">Sobre
+                            nosotros</span>
+                        <h2 class="font-display mt-3 text-3xl font-bold text-choco-800 sm:text-4xl">
+                            Mucho más que una torta
+                        </h2>
+
+                        <p class="mt-5 text-choco-600/90 leading-relaxed">
+                            <strong class="font-semibold text-choco-700">EVA</strong> nace de
+                            <span class="font-semibold text-choco-700">Ernesto Valeria Asociación</span>, un proyecto
+                            familiar en el que cada nombre guarda una historia y cada receta, un pedacito de casa.
+                        </p>
+
+                        <p class="mt-4 text-choco-600/90 leading-relaxed">
+                            Amasamos a mano, horneamos al momento y cuidamos cada detalle: desde la selección de
+                            ingredientes frescos hasta el empaque en el que viaja tu pedido. Porque creemos que un
+                            buen postre no solo se saborea, también se recuerda.
+                        </p>
+
+                        <!-- Valores -->
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            <span
+                                class="inline-flex items-center gap-2 rounded-full bg-cream-100 px-4 py-2 text-sm font-medium text-choco-700 ring-1 ring-choco-800/5">
+                                <span class="h-2 w-2 rounded-full bg-choco-500"></span> Receta artesanal
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-2 rounded-full bg-cream-100 px-4 py-2 text-sm font-medium text-choco-700 ring-1 ring-choco-800/5">
+                                <span class="h-2 w-2 rounded-full bg-lemon-500"></span> Trato cercano
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-2 rounded-full bg-cream-100 px-4 py-2 text-sm font-medium text-choco-700 ring-1 ring-choco-800/5">
+                                <span class="h-2 w-2 rounded-full bg-leaf-500"></span> Amor por el detalle
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+         5. POR QUÉ ELEGIRNOS
+         ============================================================ -->
+        <section class="bg-choco-800 py-20 text-cream-100 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="reveal mx-auto max-w-2xl text-center">
+                    <span class="text-xs font-semibold uppercase tracking-[0.25em] text-gold-400">Nuestra promesa</span>
+                    <h2 class="font-display mt-3 text-3xl font-bold text-cream-50 sm:text-4xl">¿Por qué elegir EVA?</h2>
+                </div>
+
+                <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+                    <!-- Característica 1 -->
+                    <div
+                        class="reveal rounded-3xl bg-choco-700/60 p-7 ring-1 ring-cream-100/10 transition hover:bg-choco-700">
+                        <div
+                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-leaf-400/90 text-choco-800">
+                            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 3c2.5 2 4 5 4 8a4 4 0 11-8 0c0-3 1.5-6 4-8z M12 11v9" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display mt-5 text-xl font-semibold text-cream-50">Ingredientes 100% frescos</h3>
+                        <p class="mt-3 text-sm leading-relaxed text-cream-100/75">
+                            Seleccionamos materia prima de calidad en cada preparación, sin atajos y sin conservantes
+                            innecesarios.
+                        </p>
+                    </div>
+
+                    <!-- Característica 2 -->
+                    <div
+                        class="reveal rounded-3xl bg-choco-700/60 p-7 ring-1 ring-cream-100/10 transition hover:bg-choco-700">
+                        <div
+                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-lemon-400/90 text-choco-800">
+                            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display mt-5 text-xl font-semibold text-cream-50">Preparación al momento</h3>
+                        <p class="mt-3 text-sm leading-relaxed text-cream-100/75">
+                            Horneamos tu torta cuando la pides, para que llegue a tu mesa recién hecha y en su mejor
+                            punto.
+                        </p>
+                    </div>
+
+                    <!-- Característica 3 -->
+                    <div
+                        class="reveal rounded-3xl bg-choco-700/60 p-7 ring-1 ring-cream-100/10 transition hover:bg-choco-700 sm:col-span-2 lg:col-span-1">
+                        <div
+                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-400/90 text-choco-800">
+                            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 7h13v8H3zM16 10h3l2 3v2h-5M6.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display mt-5 text-xl font-semibold text-cream-50">Entrega cuidada</h3>
+                        <p class="mt-3 text-sm leading-relaxed text-cream-100/75">
+                            Empacamos con esmero y coordinamos la entrega para que tu pedido llegue intacto y listo para
+                            disfrutar.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+         6. CALL TO ACTION FINAL
+         ============================================================ -->
+        <section id="contacto" class="relative overflow-hidden py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="reveal relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-lemon-300 via-cream-100 to-leaf-300 p-1">
+                    <div
+                        class="relative overflow-hidden rounded-[2.25rem] bg-cream-50/80 px-6 py-14 text-center backdrop-blur sm:px-14">
+                        <!-- Destellos -->
+                        <div class="pointer-events-none absolute -top-16 -left-10 h-48 w-48 rounded-full bg-lemon-400/40 blur-3xl"
+                            aria-hidden="true"></div>
+                        <div class="pointer-events-none absolute -bottom-16 -right-10 h-48 w-48 rounded-full bg-leaf-400/40 blur-3xl"
+                            aria-hidden="true"></div>
+
+                        <div class="relative">
+                            <!-- Emblema de marca -->
+                            <img src="images/imagotipo.png" alt="Imagotipo EVA - Ernesto Valeria Asociación"
+                                class="mx-auto mb-5 h-16 w-auto sm:h-20" loading="lazy" />
+                            <span class="text-xs font-semibold uppercase tracking-[0.25em] text-gold-600">Antojos,
+                                cumpleaños y eventos</span>
+                            <h2
+                                class="font-display mx-auto mt-3 max-w-2xl text-3xl font-bold text-choco-800 sm:text-4xl">
+                                Endulza tu momento con una torta EVA
+                            </h2>
+                            <p class="mx-auto mt-4 max-w-xl text-choco-600/90">
+                                Cuéntanos qué necesitas y la horneamos para ti. Escríbenos por WhatsApp y hagamos algo
+                                delicioso.
+                            </p>
+
+                            <a href="https://wa.me/584241904627?text=Hola%20EVA!%20Quiero%20hacer%20un%20pedido"
+                                target="_blank" rel="noopener"
+                                class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-choco-700 px-8 py-4 text-sm font-semibold text-cream-50 shadow-xl transition hover:-translate-y-0.5 hover:bg-choco-600 hover:shadow-2xl">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                Hacer mi pedido ahora
+                            </a>
+                            <p class="mt-4 text-xs text-choco-500">Respuesta rápida · Hecho a pedido</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================================
+       7. FOOTER
+       ============================================================ -->
+    <footer class="bg-choco-800 text-cream-100">
+        <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
+                <!-- Branding -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-3">
+                        <img src="images/isotipo.png" alt="Isotipo EVA"
+                            class="h-14 w-14 rounded-2xl bg-cream-50/5 p-1.5 object-contain" />
+                        <div>
+                            <p class="font-display text-2xl font-bold text-cream-50">EVA</p>
+                            <p class="text-xs uppercase tracking-[0.2em] text-gold-400">Ernesto Valeria Asociación</p>
+                        </div>
+                    </div>
+                    <p class="mt-5 max-w-md text-sm leading-relaxed text-cream-100/70">
+                        Tortas artesanales de alta calidad, horneadas con amor. Especialidades en
+                        <span class="text-cream-50">Marmoleada</span> y <span class="text-cream-50">Limón</span>.
+                    </p>
+
+                    <!-- Redes sociales -->
+                    <div class="mt-6 flex items-center gap-3">
+                        <a href="https://wa.me/584241904627" target="_blank" rel="noopener" aria-label="WhatsApp"
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 transition hover:bg-gold-500 hover:text-choco-800">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 transition hover:bg-gold-500 hover:text-choco-800">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.86s-.01 3.59-.07 4.86c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.86.07s-3.59-.01-4.86-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.59 2.2 15.21 2.2 12s.01-3.59.07-4.86c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.41 2.21 8.8 2.2 12 2.2zm0 3.05A6.75 6.75 0 1018.75 12 6.75 6.75 0 0012 5.25zm0 11.13A4.38 4.38 0 1116.38 12 4.38 4.38 0 0112 16.38zm6.99-11.4a1.58 1.58 0 11-1.58-1.58 1.58 1.58 0 011.58 1.58z" />
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 transition hover:bg-gold-500 hover:text-choco-800">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H16.7V3.6c-.3-.04-1.3-.13-2.46-.13-2.44 0-4.1 1.49-4.1 4.22V9.9H7.4V13h2.74v8z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Enlaces rápidos -->
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-400">Enlaces</h3>
+                    <ul class="mt-5 space-y-3 text-sm text-cream-100/75">
+                        <li><a href="#inicio" class="transition hover:text-cream-50">Inicio</a></li>
+                        <li><a href="#menu" class="transition hover:text-cream-50">Menú</a></li>
+                        <li><a href="#nosotros" class="transition hover:text-cream-50">Sobre Nosotros</a></li>
+                        <li><a href="#contacto" class="transition hover:text-cream-50">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-400">Contacto</h3>
+                    <ul class="mt-5 space-y-3 text-sm text-cream-100/75">
+                        <li class="flex items-center gap-3">
+                            <svg class="h-5 w-5 shrink-0 text-leaf-400" viewBox="0 0 24 24" fill="currentColor"
+                                aria-hidden="true">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                            <a href="https://wa.me/584241904627" target="_blank" rel="noopener"
+                                class="transition hover:text-cream-50">+58 424-1904627</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="h-5 w-5 shrink-0 text-leaf-400" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Venezuela
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="h-5 w-5 shrink-0 text-leaf-400" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Pedidos con anticipación
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Línea inferior / copyright -->
+            <div class="mt-12 border-t border-cream-100/10 pt-6 text-center">
+                <p class="text-xs text-cream-100/60">
+                    © EVA - Ernesto Valeria Asociación. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+       JAVASCRIPT
+       - Menú móvil (abrir/cerrar + auto-cierre al elegir un enlace)
+       - Sombra del header al hacer scroll
+       - Animación de aparición de secciones
+       ============================================================ -->
+    <script>
+        (function () {
+            /* --- Elementos del menú móvil --- */
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-open');
+            const iconClose = document.getElementById('icon-close');
+
+            /* Abre/cierra el menú móvil alternando clases e íconos */
+            function toggleMenu(forceClose) {
+                const shouldOpen = forceClose === true ? false : !mobileMenu.classList.contains('open');
+                mobileMenu.classList.toggle('open', shouldOpen);
+                menuBtn.setAttribute('aria-expanded', String(shouldOpen));
+                menuBtn.setAttribute('aria-label', shouldOpen ? 'Cerrar menú' : 'Abrir menú');
+                iconOpen.classList.toggle('hidden', shouldOpen);
+                iconClose.classList.toggle('hidden', !shouldOpen);
+            }
+
+            menuBtn.addEventListener('click', function () { toggleMenu(); });
+
+            /* Cierra el menú al pulsar cualquier enlace del menú móvil */
+            document.querySelectorAll('.mobile-link').forEach(function (link) {
+                link.addEventListener('click', function () { toggleMenu(true); });
+            });
+
+            /* --- Sombra del header según el scroll --- */
+            const header = document.getElementById('header');
+            function updateHeader() {
+                if (window.scrollY > 20) {
+                    header.classList.add('shadow-md');
+                    header.classList.remove('shadow-sm');
+                } else {
+                    header.classList.add('shadow-sm');
+                    header.classList.remove('shadow-md');
+                }
+            }
+            window.addEventListener('scroll', updateHeader, { passive: true });
+            updateHeader();
+
+            /* --- Animación de aparición al hacer scroll (IntersectionObserver) --- */
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+                reveals.forEach(function (el) { observer.observe(el); });
+            } else {
+                /* Respaldo: muestra todo si el navegador no soporta el observer */
+                reveals.forEach(function (el) { el.classList.add('is-visible'); });
+            }
+        })();
+    </script>
+</body>
+
+</html>
